@@ -1,0 +1,12 @@
+.etabs {
+  display: flex !important;
+}
+.nav.visible {
+  display: flex;
+  width: 125px;
+}
+.views {
+  position: relative;
+  height: calc(100vh - 33px);
+  width: 100vw;
+}

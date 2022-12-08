@@ -1,0 +1,19 @@
+{
+  "extends": null,
+  "productName": "FreshwindCGN",
+  "directories": {
+    "output": "dist/"
+  },
+
+  "win": {
+    "target": "nsis",
+    "icon": "./build/icon.ico"
+  },
+
+  "nsis": {
+    "deleteAppDataOnUninstall": true,
+    "oneClick": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true
+  }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+    /> -->
+    <link href="./assets/css/common.css" rel="stylesheet" />
+    <title>FreshWind</title>
+  </head>
+  <body>
+    <tab-group>
+      <style>
+        .etabs {
+          display: flex;
+        }
+        .nav.visible {
+          display: flex;
+          width: 60px;
+          height: 101vh;
+          background-color: #2e2f31;
+          border: none;
+          flex-direction: column;
+          border-right: 1px solid #bbbbbb29;
+          box-shadow: 10px 0 8px -8px #00000054;
+        }
+        .views {
+          position: relative;
+          height: 100vh;
+          width: 100vw;
+        }
+        .tab {
+          background: none;
+          box-shadow: none;
+
+          height: 60px;
+          width: 60px;
+
+          justify-content: center;
+        }
+        .tab.active {
+          background: none;
+          border: none;
+          border-left: 1px solid #00c4ff;
+          box-shadow: none;
+          padding-left: 7px;
+        }
+        .tab-icon {
+          height: 30px;
+          width: 30px;
+        }
+        .tab-icon img {
+          max-width: 30px;
+          max-height: 30px;
+        }
+        .tab-title,
+        .tab-close {
+          display: none;
+        }
+        .buttons {
+          border-left: none;
+          padding: 0px;
+          display: none;
+        }
+        .tab.visible:not(.active) + .tab.visible:not(.active) {
+          border-left: none;
+          padding-left: 8px;
+        }
+      </style>
+    </tab-group>
+    <script src="./assets/js/renderer.js"></script>
+    <script src="./assets/js/tabControl.js"></script>
+  </body>
+</html>
