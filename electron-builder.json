@@ -9,7 +9,13 @@
     "target": "nsis",
     "icon": "./build/icon.ico"
   },
-
+  "mac": {
+    "target": ["dmg"],
+    "artifactName": "${productName}-${version}.${ext}",
+    "category": "public.app-category.productivity",
+    "icon": "build/icon.icns",
+    "identity": null
+  },
   "nsis": {
     "deleteAppDataOnUninstall": true,
     "oneClick": true,

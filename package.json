@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "distwin": "electron-builder --windows"
+    "distwin": "electron-builder --windows",
+    "distmac": "electron-builder --mac"
   },
   "repository": "https://github.com/FreshwindCGN/electron_up_2.git",
   "author": "Ubair Javid",
