@@ -25,6 +25,13 @@ function createWindow() {
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 }
+app.on("ready", () => {
+  const userAgentFallback = app.userAgentFallback;
+  app.userAgentFallback = userAgentFallback.replace(
+    /(Electron|freshwind)([^\s]+\s)/g,
+    ""
+  );
+});
 app.on("web-contents-created", (createEvent, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
     console.log("Blocked by 'setWindowOpenHandler'");
