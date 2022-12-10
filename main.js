@@ -2,8 +2,9 @@ const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 Menu.setApplicationMenu(null);
+let mainWindow;
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1400,
     height: 900,
     webPreferences: {
@@ -13,16 +14,24 @@ function createWindow() {
       enableRemoteModule: true,
       nodeIntegration: true,
       contextIsolation: false,
+      nativeWindowOpen: true,
     },
   });
   mainWindow.loadFile("index.html");
   if (isDev) {
     mainWindow.webContents.openDevTools();
   }
+
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 }
-
+app.on("web-contents-created", (createEvent, contents) => {
+  contents.setWindowOpenHandler(({ url }) => {
+    console.log("Blocked by 'setWindowOpenHandler'");
+    mainWindow.webContents.send("LOAD-WEBVIEW-URL", url);
+    return { action: "deny" };
+  });
+});
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
