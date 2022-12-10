@@ -55,6 +55,7 @@ console.log("Tab position is " + pos);
 tabGroup.on("tab-active", (tab, tabGroup) => {
   tabActive = tab;
 });
+tabActive = tabGroup.getActiveTab();
 
 ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
   console.log("LOAD-WEBVIEW-URL", url);
