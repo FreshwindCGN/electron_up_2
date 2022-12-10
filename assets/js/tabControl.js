@@ -2,8 +2,12 @@ const TabGroup = require("electron-tabs");
 const tabGroup = document.querySelector("tab-group");
 const { ipcRenderer } = require("electron");
 let tabActive;
+// const webUserAgent = window.navigator.userAgent.replace(
+//   /(Electron|freshwind)([^\s]+\s)/g,
+//   ""
+// );
 var webUserAgent =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)  Chrome/108.0.5359.62 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) freshwind/1.0.0 Chrome/108.0.5359.62 Safari/537.36";
 
 const tab = tabGroup.addTab({
   title: "",
@@ -13,6 +17,7 @@ const tab = tabGroup.addTab({
   active: true,
   webviewAttributes: {
     allowpopups: true,
+    userAgent: webUserAgent,
   },
 });
 const tab2 = tabGroup.addTab({
@@ -22,15 +27,17 @@ const tab2 = tabGroup.addTab({
   closable: false,
   webviewAttributes: {
     allowpopups: true,
+    userAgent: webUserAgent,
   },
 });
 const tab3 = tabGroup.addTab({
   title: "",
   iconURL: "assets/images/twitter.png",
-  src: "https://twitter.com/i/flow/login",
+  src: "https://twitter.com",
   closable: false,
   webviewAttributes: {
     allowpopups: true,
+    userAgent: webUserAgent,
   },
 });
 const tab4 = tabGroup.addTab({
@@ -45,13 +52,12 @@ const tab4 = tabGroup.addTab({
 });
 const pos = tab.getPosition();
 console.log("Tab position is " + pos);
-// let webview = tab2.webview;
+// let webview = tab4.webview;
 // webview.addEventListener("dom-ready", (e) => {
 //   console.log("kjhkhkh");
-//   const url = e.url;
 //   webview.openDevTools();
 // });
-
+console.log(navigator.userAgent);
 tabGroup.on("tab-active", (tab, tabGroup) => {
   tabActive = tab;
 });
