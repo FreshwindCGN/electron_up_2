@@ -45,17 +45,21 @@ const template = [
 ];
 const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
+isMac
+  ? systemPreferences.setUserDefault(
+      "NSDisabledDictationMenuItem",
+      "boolean",
+      true
+    )
+  : "";
 
-systemPreferences.setUserDefault(
-  "NSDisabledDictationMenuItem",
-  "boolean",
-  true
-);
-systemPreferences.setUserDefault(
-  "NSDisabledCharacterPaletteMenuItem",
-  "boolean",
-  true
-);
+isMac
+  ? systemPreferences.setUserDefault(
+      "NSDisabledCharacterPaletteMenuItem",
+      "boolean",
+      true
+    )
+  : "";
 let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
