@@ -1,12 +1,67 @@
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, systemPreferences } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-Menu.setApplicationMenu(null);
+const isMac = process.platform === "darwin";
+
+const template = [
+  // { role: 'appMenu' }
+  ...(isMac
+    ? [
+        {
+          label: app.name,
+          submenu: [{ role: "about" }, { role: "quit" }],
+        },
+      ]
+    : []),
+  // { role: 'fileMenu' }
+  {
+    label: "File",
+    submenu: [isMac ? { role: "close" } : { role: "quit" }],
+  },
+  // { role: 'editMenu' }
+  {
+    label: "Edit",
+    submenu: [
+      { role: "undo" },
+      { role: "redo" },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+      ...(isMac
+        ? [
+            { role: "pasteAndMatchStyle" },
+            { role: "delete" },
+            { role: "selectAll" },
+          ]
+        : [{ role: "delete" }, { type: "separator" }, { role: "selectAll" }]),
+    ],
+  },
+  // { role: 'viewMenu' }
+  {
+    label: "View",
+    submenu: [{ role: "togglefullscreen" }],
+  },
+];
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
+
+systemPreferences.setUserDefault(
+  "NSDisabledDictationMenuItem",
+  "boolean",
+  true
+);
+systemPreferences.setUserDefault(
+  "NSDisabledCharacterPaletteMenuItem",
+  "boolean",
+  true
+);
 let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1400,
     height: 900,
+    show: false,
     webPreferences: {
       devTools: isDev ? true : false,
       preload: path.join(__dirname, "preload.js"),
@@ -21,7 +76,9 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools();
   }
-
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
+  });
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 }
@@ -32,6 +89,7 @@ app.on("ready", () => {
     ""
   );
 });
+
 app.on("web-contents-created", (createEvent, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
     console.log("Blocked by 'setWindowOpenHandler'");

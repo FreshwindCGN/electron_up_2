@@ -32,8 +32,8 @@ const tab2 = tabGroup.addTab({
 });
 const tab3 = tabGroup.addTab({
   title: "",
-  iconURL: "assets/images/twitter.png",
-  src: "https://twitter.com",
+  iconURL: "assets/images/podio.png",
+  src: "https://www.podio.com/",
   closable: false,
   webviewAttributes: {
     allowpopups: true,
@@ -41,6 +41,46 @@ const tab3 = tabGroup.addTab({
   },
 });
 const tab4 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/clickup.png",
+  src: "https://clickup.com/",
+  closable: false,
+  webviewAttributes: {
+    allowpopups: true,
+    userAgent: webUserAgent,
+  },
+});
+const tab5 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/sheets.png",
+  src: "https://docs.google.com/spreadsheets",
+  closable: false,
+  webviewAttributes: {
+    allowpopups: true,
+    userAgent: webUserAgent,
+  },
+});
+const tab6 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/docs.png",
+  src: "https://docs.google.com/document",
+  closable: false,
+  webviewAttributes: {
+    allowpopups: true,
+    userAgent: webUserAgent,
+  },
+});
+const tab7 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/zendesk.png",
+  src: "https://www.zendesk.com/",
+  closable: false,
+  webviewAttributes: {
+    allowpopups: true,
+    userAgent: webUserAgent,
+  },
+});
+const tab8 = tabGroup.addTab({
   title: "",
   iconURL: "assets/images/whatsapp.png",
   src: "https://web.whatsapp.com",
