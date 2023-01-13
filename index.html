@@ -8,9 +8,90 @@
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
     /> -->
     <link href="./assets/css/common.css" rel="stylesheet" />
+    <link href="./assets/css/nav-bar.css" rel="stylesheet" />
     <title>FreshWind</title>
   </head>
   <body>
+    <div class="app-nav-bar-container">
+      <div class="nav-bar-all-elems">
+        <div class="nav-bar-branding-navigation-control-container">
+          <div class="nav-bar-branding-container">
+            <div class="nav-bar-logo-container">
+              <img src="./assets/images/logo.png" height="100%" alt="" />
+            </div>
+            <div class="nav-bar-label-container">Freshwind</div>
+          </div>
+          <div class="nav-bar-navigation-control-container">
+            <div class="nav-bar-back-forward-container">
+              <div
+                class="nav-bar-back-container navicon"
+                onclick="navGoBack();"
+              >
+                <img
+                  src="./assets/images/go-back.svg"
+                  height="100%"
+                  class
+                  alt=""
+                />
+              </div>
+              <div
+                class="nav-bar-forward-container navicon"
+                onclick="navGoForward();"
+              >
+                <img
+                  src="./assets/images/go-forward.svg"
+                  height="100%"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div
+              class="nav-bar-reload-container navicon"
+              onclick="navReload();"
+            >
+              <img src="./assets/images/reload.svg" height="100%" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="nav-bar-app-title-container">
+          <div class="nav-bar-title-label">Slack</div>
+        </div>
+        <div class="nav-bar-zoom-container">
+          <div class="nav-bar-zoom-percent-text-plus-minus-reset-container">
+            <div class="nav-bar-zoom-percent-text-container"></div>
+            <div
+              class="nav-bar-zoom-percent-plus-container navicon"
+              onclick="increaseZoom();"
+            >
+              <img src="./assets/images/zoom-plus.svg" height="100%" alt="" />
+            </div>
+            <div
+              class="nav-bar-zoom-percent-minus-container navicon"
+              onclick="decreaseZoom();"
+            >
+              <img
+                src="./assets/images/zoom-minus.svg"
+                height="100%"
+                width="14px"
+                alt=""
+              />
+            </div>
+            <div
+              class="nav-bar-zoom-percent-reset-container"
+              onclick="resetZoom();"
+            >
+              Reset
+            </div>
+          </div>
+          <div
+            class="nav-bar-zoom-icon-container navicon"
+            onclick="openZoomMenu();"
+          >
+            <img src="./assets/images/zoomin.svg" height="100%" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
     <tab-group>
       <style>
         .etabs {
@@ -19,7 +100,7 @@
         .nav.visible {
           display: flex;
           width: 60px;
-          height: 101vh;
+          height: 96vh;
           background-color: #2e2f31;
           border: none;
           flex-direction: column;
@@ -70,6 +151,7 @@
         }
       </style>
     </tab-group>
+
     <script src="./assets/js/renderer.js"></script>
     <script src="./assets/js/tabControl.js"></script>
   </body>

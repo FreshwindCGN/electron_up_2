@@ -2,7 +2,7 @@ const { app, BrowserWindow, Menu, systemPreferences } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 const isMac = process.platform === "darwin";
-
+let mainWindow;
 const template = [
   // { role: 'appMenu' }
   ...(isMac
@@ -17,6 +17,53 @@ const template = [
   {
     label: "File",
     submenu: [isMac ? { role: "close" } : { role: "quit" }],
+  },
+  {
+    label: "View",
+    submenu: [
+      {
+        label: "Zoom In",
+        click: function () {
+          console.log("Zoom in");
+          mainWindow.webContents.send("ZOOMIN-PAGE");
+        },
+      },
+      {
+        label: "Zoom Out",
+        click: function () {
+          console.log("Zoom out");
+          mainWindow.webContents.send("ZOOMOUT-PAGE");
+        },
+      },
+      {
+        label: "Reset Zoom",
+        click: function () {
+          console.log("Reset zoom");
+          mainWindow.webContents.send("RESET-ZOOM-PAGE");
+        },
+      },
+      {
+        label: "Back",
+        click: function () {
+          console.log("Back");
+          mainWindow.webContents.send("WEBVIEW-GO-BACK");
+        },
+      },
+      {
+        label: "Forward",
+        click: function () {
+          console.log("Forward");
+          mainWindow.webContents.send("WEBVIEW-GO-FORWARD");
+        },
+      },
+      {
+        label: "Reload Page",
+        click: function () {
+          console.log("Reload");
+          mainWindow.webContents.send("WEBVIEW-RELOAD");
+        },
+      },
+    ],
   },
   // { role: 'editMenu' }
   {
@@ -60,7 +107,7 @@ isMac
       true
     )
   : "";
-let mainWindow;
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1400,

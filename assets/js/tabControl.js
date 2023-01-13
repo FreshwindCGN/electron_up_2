@@ -10,7 +10,6 @@ var webUserAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) freshwind/1.0.0 Chrome/108.0.5359.62 Safari/537.36";
 
 const tab = tabGroup.addTab({
-  title: "",
   iconURL: "assets/images/slack.png",
   src: "https://slack.com",
   closable: false,
@@ -90,8 +89,37 @@ const tab8 = tabGroup.addTab({
     allowpopups: true,
   },
 });
-const pos = tab.getPosition();
-console.log("Tab position is " + pos);
+const tab9 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/shopware.png",
+  src: "https://www.shopware.com/",
+  closable: false,
+  webviewAttributes: {
+    userAgent: webUserAgent,
+    allowpopups: true,
+  },
+});
+const tab10 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/Canva.png",
+  src: "https://www.canva.com/",
+  closable: false,
+  webviewAttributes: {
+    userAgent: webUserAgent,
+    allowpopups: true,
+  },
+});
+const tab11 = tabGroup.addTab({
+  title: "",
+  iconURL: "assets/images/ewarehouse.png",
+  src: "https://www.ewarehouse.com/",
+  closable: false,
+  webviewAttributes: {
+    userAgent: webUserAgent,
+    allowpopups: true,
+  },
+});
+
 // let webview = tab4.webview;
 // webview.addEventListener("dom-ready", (e) => {
 //   console.log("kjhkhkh");
@@ -102,7 +130,34 @@ tabGroup.on("tab-active", (tab, tabGroup) => {
   tabActive = tab;
   // console.log(tabActive, "90909090909");
 });
-
+tabActive = tabGroup.getActiveTab();
+setTimeout(() => {
+  console.log(tabActive);
+}, 7000);
+ipcRenderer.on("ZOOMIN-PAGE", async () => {
+  console.log("ZOOMIN-PAGE");
+  increaseZoom();
+});
+ipcRenderer.on("ZOOMOUT-PAGE", async () => {
+  console.log("ZOOMOUT-PAGE");
+  decreaseZoom();
+});
+ipcRenderer.on("RESET-ZOOM-PAGE", async () => {
+  console.log("RESET-ZOOM-PAGE");
+  resetZoom();
+});
+ipcRenderer.on("WEBVIEW-GO-BACK", async () => {
+  console.log("WEBVIEW-GO-BACK");
+  navGoBack();
+});
+ipcRenderer.on("WEBVIEW-GO-FORWARD", async () => {
+  console.log("WEBVIEW-GO-FORWARD");
+  navGoForward();
+});
+ipcRenderer.on("WEBVIEW-RELOAD", async () => {
+  console.log("WEBVIEW-RELOAD");
+  navReload();
+});
 ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
   console.log("LOAD-WEBVIEW-URL", url);
   let newwebview = tabActive.webview;
@@ -111,3 +166,50 @@ ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
     throw error;
   });
 });
+function increaseZoom() {
+  var currentZoom = tabActive.webview.getZoomFactor();
+  tabActive.webview.setZoomFactor(currentZoom + 0.2);
+  document.getElementsByClassName(
+    "nav-bar-zoom-percent-text-container"
+  )[0].innerText = (tabActive.webview.getZoomFactor() * 100).toFixed(0) + "%";
+  console.log(tabActive.webview.getZoomFactor() * 100);
+}
+function decreaseZoom() {
+  var currentZoom = tabActive.webview.getZoomFactor();
+  tabActive.webview.setZoomFactor(currentZoom - 0.2);
+  document.getElementsByClassName(
+    "nav-bar-zoom-percent-text-container"
+  )[0].innerText = (tabActive.webview.getZoomFactor() * 100).toFixed(0) + "%";
+  console.log(tabActive.webview.getZoomFactor() * 100);
+}
+function resetZoom() {
+  tabActive.webview.setZoomFactor(1.0);
+  document.getElementsByClassName(
+    "nav-bar-zoom-percent-text-container"
+  )[0].innerText = (tabActive.webview.getZoomFactor() * 100).toFixed(0) + "%";
+  console.log(tabActive.webview.getZoomFactor() * 100);
+}
+
+function navGoBack() {
+  tabActive.webview.goBack();
+}
+function navGoForward() {
+  tabActive.webview.goForward();
+}
+function navReload() {
+  tabActive.webview.reloadIgnoringCache();
+}
+function openZoomMenu() {
+  document.getElementsByClassName(
+    "nav-bar-zoom-percent-text-container"
+  )[0].innerText = (tabActive.webview.getZoomFactor() * 100).toFixed(0) + "%";
+
+  var x = document.getElementsByClassName(
+    "nav-bar-zoom-percent-text-plus-minus-reset-container"
+  )[0];
+  if (x.style.display === "flex") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "flex";
+  }
+}

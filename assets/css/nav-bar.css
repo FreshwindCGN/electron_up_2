@@ -1,0 +1,92 @@
+.app-nav-bar-container {
+  height: 35px;
+  width: 100%;
+  background-color: #363636;
+  border-bottom: 1px solid #505050;
+  display: flex;
+  align-items: center;
+}
+.nav-bar-branding-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.nav-bar-logo-container {
+  height: 20px;
+}
+.nav-bar-label-container {
+  color: white;
+  font-size: 14px;
+}
+.nav-bar-branding-navigation-control-container {
+  display: flex;
+  gap: 80px;
+}
+.navicon {
+  height: 14px;
+  display: flex;
+  align-items: center;
+  width: 20px;
+  justify-content: center;
+  cursor: pointer;
+}
+.nav-bar-navigation-control-container {
+  display: flex;
+  border: 1px solid #d5d5d547;
+  padding: 5px 8px;
+  border-radius: 5px;
+  gap: 18px;
+}
+.nav-bar-back-forward-container {
+  display: flex;
+  gap: 11px;
+  border-right: 1px solid #ababab82;
+  padding-right: 14px;
+}
+.nav-bar-all-elems {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0px 20px;
+}
+.nav-bar-zoom-container {
+  display: flex;
+}
+.nav-bar-zoom-percent-reset-container {
+  background-color: #4a4a4a;
+  padding: 1px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.nav-bar-zoom-percent-text-plus-minus-reset-container {
+  display: none;
+  align-items: center;
+  gap: 15px;
+  border-right: 1px solid #adadada6;
+  padding-right: 18px;
+  transition: 0.5s;
+  animation: all 0.5s ease;
+}
+.nav-bar-zoom-container {
+  display: flex;
+  color: white;
+  align-items: center;
+  gap: 20px;
+  /* border: 1px solid red; */
+  border: 1px solid #d5d5d547;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+}
+.nav-bar-app-title-container {
+  border: 1px solid #a1a1a14d;
+  border-radius: 3px;
+  width: 300px;
+  color: lightgrey;
+  font-size: 15px;
+  /* background-color: aliceblue; */
+  text-align: center;
+  padding: 2px 0px;
+  display: none;
+}
