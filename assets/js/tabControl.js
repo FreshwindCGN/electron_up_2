@@ -8,8 +8,22 @@ const webUserAgentWA = window.navigator.userAgent.replace(
 );
 var webUserAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) freshwind/1.0.0 Chrome/108.0.5359.62 Safari/537.36";
+setTimeout(() => {
+  const searchModuleRoot = tabGroup && tabGroup.shadowRoot;
+  const tabList = searchModuleRoot.querySelectorAll(".tab");
+
+  for (let i = 0; i < tabList.length; i++) {
+    tabList[i].addEventListener("click", function () {
+      var tabTitle = tabActive.title;
+      document.getElementsByClassName("nav-bar-title-label")[0].innerText =
+        tabTitle;
+    });
+  }
+  console.log(title);
+}, 2000);
 
 const tab = tabGroup.addTab({
+  title: "Slack",
   iconURL: "assets/images/slack.png",
   src: "https://slack.com",
   closable: false,
@@ -20,7 +34,7 @@ const tab = tabGroup.addTab({
   },
 });
 const tab2 = tabGroup.addTab({
-  title: "",
+  title: "Gmail",
   iconURL: "assets/images/gmail.png",
   src: "https://www.gmail.com",
   closable: false,
@@ -30,7 +44,7 @@ const tab2 = tabGroup.addTab({
   },
 });
 const tab3 = tabGroup.addTab({
-  title: "",
+  title: "Podio",
   iconURL: "assets/images/podio.png",
   src: "https://www.podio.com/",
   closable: false,
@@ -40,7 +54,7 @@ const tab3 = tabGroup.addTab({
   },
 });
 const tab4 = tabGroup.addTab({
-  title: "",
+  title: "Clickup",
   iconURL: "assets/images/clickup.png",
   src: "https://clickup.com/",
   closable: false,
@@ -50,7 +64,7 @@ const tab4 = tabGroup.addTab({
   },
 });
 const tab5 = tabGroup.addTab({
-  title: "",
+  title: "Google | Sheets",
   iconURL: "assets/images/sheets.png",
   src: "https://docs.google.com/spreadsheets",
   closable: false,
@@ -60,7 +74,7 @@ const tab5 = tabGroup.addTab({
   },
 });
 const tab6 = tabGroup.addTab({
-  title: "",
+  title: "Google | Docs",
   iconURL: "assets/images/docs.png",
   src: "https://docs.google.com/document",
   closable: false,
@@ -70,7 +84,7 @@ const tab6 = tabGroup.addTab({
   },
 });
 const tab7 = tabGroup.addTab({
-  title: "",
+  title: "Zendesk",
   iconURL: "assets/images/zendesk.png",
   src: "https://www.zendesk.com/",
   closable: false,
@@ -80,7 +94,7 @@ const tab7 = tabGroup.addTab({
   },
 });
 const tab8 = tabGroup.addTab({
-  title: "",
+  title: "Whatsapp",
   iconURL: "assets/images/whatsapp.png",
   src: "https://web.whatsapp.com",
   closable: false,
@@ -90,9 +104,13 @@ const tab8 = tabGroup.addTab({
   },
 });
 const tab9 = tabGroup.addTab({
-  title: "",
+  // title: "Shopware | Windandvibes",
+  // title: "Shopware | Etalon-vert",
+  title: "Shopware | Chiwitt-brand",
   iconURL: "assets/images/shopware.png",
-  src: "https://www.shopware.com/",
+  // src: "https://windandvibes.com/backend",
+  // src: "https://etalon-vert.com/backend/",
+  src: "https://chiwitt-brand.com/backend/",
   closable: false,
   webviewAttributes: {
     userAgent: webUserAgent,
@@ -100,7 +118,7 @@ const tab9 = tabGroup.addTab({
   },
 });
 const tab10 = tabGroup.addTab({
-  title: "",
+  title: "Canva",
   iconURL: "assets/images/Canva.png",
   src: "https://www.canva.com/",
   closable: false,
@@ -110,9 +128,9 @@ const tab10 = tabGroup.addTab({
   },
 });
 const tab11 = tabGroup.addTab({
-  title: "",
+  title: "e-warehouse",
   iconURL: "assets/images/ewarehouse.png",
-  src: "https://www.ewarehouse.com/",
+  src: "https://www.e-warehouse.eu/",
   closable: false,
   webviewAttributes: {
     userAgent: webUserAgent,
@@ -132,8 +150,8 @@ tabGroup.on("tab-active", (tab, tabGroup) => {
 });
 tabActive = tabGroup.getActiveTab();
 setTimeout(() => {
-  console.log(tabActive);
-}, 7000);
+  console.log(tabActive.title);
+}, 5000);
 ipcRenderer.on("ZOOMIN-PAGE", async () => {
   console.log("ZOOMIN-PAGE");
   increaseZoom();
