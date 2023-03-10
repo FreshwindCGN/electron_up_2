@@ -143,7 +143,7 @@ app.on("ready", () => {
 
 app.on("web-contents-created", (createEvent, contents) => {
   contents.setWindowOpenHandler(({ url }) => {
-    console.log("Blocked by 'setWindowOpenHandler'");
+    console.log("Blocked by 'setWindowOpenHandler'", url);
     mainWindow.webContents.send("LOAD-WEBVIEW-URL", url);
     return { action: "deny" };
   });

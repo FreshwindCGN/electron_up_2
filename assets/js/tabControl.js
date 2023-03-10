@@ -11,12 +11,28 @@ var webUserAgent =
 setTimeout(() => {
   const searchModuleRoot = tabGroup && tabGroup.shadowRoot;
   const tabList = searchModuleRoot.querySelectorAll(".tab");
-
   for (let i = 0; i < tabList.length; i++) {
     tabList[i].addEventListener("click", function () {
+      var rootViews = searchModuleRoot.querySelectorAll("webview");
+      console.log(rootViews);
       var tabTitle = tabActive.title;
       document.getElementsByClassName("nav-bar-title-label")[0].innerText =
         tabTitle;
+      console.log(tabTitle, "1232");
+      rootViews.forEach((element) => {
+        element.classList.remove("visible");
+      });
+      console.log(tabActive.webview, "kjsdkjhsdkfjhsdD");
+      console.log(tabActive.webview.classList);
+      const isActive = tabActive.webview.classList.contains("visible");
+      if (isActive) {
+        console.log("active");
+      } else {
+        tabActive.webview.classList.add("visible");
+        console.log("made active");
+      }
+
+      // rootViews.classList.add("visible");
     });
   }
   console.log(title);
@@ -104,13 +120,13 @@ const tab8 = tabGroup.addTab({
   },
 });
 const tab9 = tabGroup.addTab({
-  // title: "Shopware | Windandvibes",
+  title: "Shopware | Windandvibes",
   // title: "Shopware | Etalon-vert",
-  title: "Shopware | Chiwitt-brand",
+  // title: "Shopware | Chiwitt-brand",
   iconURL: "assets/images/shopware.png",
-  // src: "https://windandvibes.com/backend",
+  src: "https://windandvibes.com/backend",
   // src: "https://etalon-vert.com/backend/",
-  src: "https://chiwitt-brand.com/backend/",
+  // src: "https://chiwitt-brand.com/backend/",
   closable: false,
   webviewAttributes: {
     userAgent: webUserAgent,
@@ -146,12 +162,32 @@ const tab11 = tabGroup.addTab({
 console.log(navigator.userAgent);
 tabGroup.on("tab-active", (tab, tabGroup) => {
   tabActive = tab;
-  // console.log(tabActive, "90909090909");
+  console.log(tabActive, "90909090909");
 });
 tabActive = tabGroup.getActiveTab();
 setTimeout(() => {
-  console.log(tabActive.title);
+  console.log(tabActive.webview);
 }, 5000);
+function removeWebviewVisibilty() {
+  const searchModuleRoot = tabGroup && tabGroup.shadowRoot;
+  var rootViews = searchModuleRoot.querySelectorAll("webview");
+  rootViews.forEach((element) => {
+    element.classList.remove("visible");
+  });
+}
+var webViewCounter = 1;
+function initSubtab(urlParam) {
+  removeWebviewVisibilty();
+  var rootElement = document.querySelector("tab-group").shadowRoot;
+  var rootViews2 = rootElement.querySelector(".views");
+  rootViews2.insertAdjacentHTML(
+    "beforeend",
+    `<div id="webview${webViewCounter}-container" class="tabcontent">
+    <webview id="webview${webViewCounter}" class="view visible" allowpopups="true" useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) freshwind/1.0.0 Chrome/108.0.5359.62 Safari/537.36" src=${urlParam}></webview>
+  </div>`
+  );
+  webViewCounter += 1;
+}
 ipcRenderer.on("ZOOMIN-PAGE", async () => {
   console.log("ZOOMIN-PAGE");
   increaseZoom();
@@ -178,12 +214,54 @@ ipcRenderer.on("WEBVIEW-RELOAD", async () => {
 });
 ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
   console.log("LOAD-WEBVIEW-URL", url);
-  let newwebview = tabActive.webview;
-  newwebview.loadURL(url).catch((error) => {
-    if (error.code === "ERR_ABORTED (-3)") return;
-    throw error;
-  });
+
+  let domain = new URL(url);
+
+  const pathnameSegments = domain.pathname.split("/");
+  const firstPathnameSegment = pathnameSegments[1];
+  console.log(firstPathnameSegment);
+  domain = domain.hostname.replace("www.", "");
+  console.log(domain); //example.com
+  console.log(`${domain}/${firstPathnameSegment}`);
+  if (
+    `${domain}/${firstPathnameSegment}` === "docs.google.com/spreadsheets" ||
+    `${domain}/${firstPathnameSegment}` === "docs.google.com/document"
+  ) {
+    console.log("gooooogle");
+    var tabGroupContainer = document.getElementById("tabGroupContainer");
+    tabGroupContainer.insertAdjacentHTML(
+      "beforeend",
+      `<div class="tabs-tabelem active" onclick="selectSubtab(event, 'webview${webViewCounter}')">${domain}</div>`
+    );
+    initSubtab(url);
+  } else {
+    let newwebview = tabActive.webview;
+    newwebview.loadURL(url).catch((error) => {
+      if (error.code === "ERR_ABORTED (-3)") return;
+      throw error;
+    });
+  }
 });
+function selectSubtab(evt, tabName) {
+  removeWebviewVisibilty();
+  const searchModuleRoot = tabGroup && tabGroup.shadowRoot;
+  var webviewidDiv = searchModuleRoot.querySelector(`#${tabName}-container`);
+  var webviewID = searchModuleRoot.querySelector(`#${tabName}`);
+  console.log(webviewID, "ljkashd");
+  console.log(webviewidDiv, "jahsdk");
+  var i, tabcontent, tablinks;
+  tabcontent = searchModuleRoot.querySelectorAll(".tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.querySelectorAll(".tabs-tabelem");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  webviewidDiv.style.display = "block";
+  webviewID.classList.add("visible");
+  evt.currentTarget.className += " active";
+}
 function increaseZoom() {
   var currentZoom = tabActive.webview.getZoomFactor();
   tabActive.webview.setZoomFactor(currentZoom + 0.2);

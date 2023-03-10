@@ -90,3 +90,53 @@
   padding: 2px 0px;
   /* display: none; */
 }
+.tab-group-elems-container {
+  display: flex;
+  gap: 0px;
+  margin-top: 8px;
+}
+.tabs-tabelem {
+  background-color: #525252;
+  padding: 4px 12px;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid #4a4a4a;
+  color: #c1c1c1;
+  font-size: 14px;
+  cursor: pointer;
+  max-width: 75px;
+  min-width: 30px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tabs-tabelem:hover {
+  background-color: #4a4a4a;
+}
+.tabs-tabelem.active {
+  background-color: #2e2e2e;
+}
+.tabs-elem-controlbar-container {
+  display: flex;
+  gap: 6px;
+}
+#tabsControlbarContainer {
+  /* display: none; */
+}
+.tab-group-add-tab-container {
+  /* background-color: aliceblue; */
+  display: flex;
+  /* justify-content: flex-end; */
+  align-items: flex-end;
+  cursor: pointer;
+}
+.tab-group-add-tab.button {
+  /* display: flex; */
+  color: #d9d9d9;
+  align-items: center;
+  /* gap: 20px; */
+  /* border: 1px solid red; */
+  border: 1px solid #d5d5d547;
+  padding: 1px 9px;
+  border-radius: 2px;
+  font-size: 18px;
+}

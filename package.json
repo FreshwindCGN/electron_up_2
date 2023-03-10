@@ -1,6 +1,6 @@
 {
   "name": "freshwind",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "All your services in one place",
   "main": "main.js",
   "scripts": {
