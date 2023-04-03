@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Webpage</title>
+    <style>
+      body {
+        background: linear-gradient(to bottom right, #1b1d26, #2e2f3e);
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      h1 {
+        color: #fff;
+        text-align: center;
+        margin-top: 50px;
+        font-size: 48px;
+        text-shadow: 2px 2px #333;
+      }
+
+      .myDiv {
+        background-color: #8a4baf;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 24px;
+        padding: 20px;
+        margin: 20px 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+        display: inline-block;
+        width: 150px;
+      }
+
+      .myDiv:hover {
+        background-color: #683d87;
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to Zendesk</h1>
+    <div class="button-container">
+      <div
+        class="myDiv"
+        onclick="window.open('http://windandvibes.zendesk.com/', '_blank')"
+      >
+        <p>Windandvibes</p>
+      </div>
+      <div
+        class="myDiv"
+        onclick="window.open('http://etalonvert.zendesk.com/', '_blank')"
+      >
+        <p>Etalonvert</p>
+      </div>
+      <div
+        class="myDiv"
+        onclick="window.open('http://chiwitt.zendesk.com/', '_blank')"
+      >
+        <p>Chiwitt</p>
+      </div>
+    </div>
+  </body>
+</html>

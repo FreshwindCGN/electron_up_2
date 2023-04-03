@@ -1,6 +1,8 @@
 const TabGroup = require("electron-tabs");
 const tabGroup = document.querySelector("tab-group");
 const { ipcRenderer } = require("electron");
+const getUrlTitle = require("get-url-title");
+
 let tabActive;
 const webUserAgentWA = window.navigator.userAgent.replace(
   /(Electron|freshwind)([^\s]+\s)/g,
@@ -102,7 +104,7 @@ const tab6 = tabGroup.addTab({
 const tab7 = tabGroup.addTab({
   title: "Zendesk",
   iconURL: "assets/images/zendesk.png",
-  src: "https://www.zendesk.com/",
+  src: "assets/html/defaultZendesk.html",
   closable: false,
   webviewAttributes: {
     allowpopups: true,
@@ -120,13 +122,9 @@ const tab8 = tabGroup.addTab({
   },
 });
 const tab9 = tabGroup.addTab({
-  title: "Shopware | Windandvibes",
-  // title: "Shopware | Etalon-vert",
-  // title: "Shopware | Chiwitt-brand",
+  title: "Shopware",
   iconURL: "assets/images/shopware.png",
-  src: "https://windandvibes.com/backend",
-  // src: "https://etalon-vert.com/backend/",
-  // src: "https://chiwitt-brand.com/backend/",
+  src: "assets/html/defaultShopware.html",
   closable: false,
   webviewAttributes: {
     userAgent: webUserAgent,
@@ -153,12 +151,37 @@ const tab11 = tabGroup.addTab({
     allowpopups: true,
   },
 });
+function checkSlack() {
+  var rootElement = document.querySelector("tab-group").shadowRoot;
+  var rootViews2 = rootElement.querySelectorAll("webview.visible")[0];
+  console.log(rootViews2, "0-0-0-0-0-0-0");
+  setInterval(() => {
+    rootViews2.executeJavaScript(`
+      var links = document.querySelectorAll('a');
+      console.log(links,"kjhkjh");
+      links.forEach((link) => {
+        link.setAttribute('target', '_blank');
+      });
+    `);
+  }, 1000);
+}
+setTimeout(() => {
+  checkActiveWebview();
+}, 8000);
+function checkActiveWebview() {
+  var rootElement = document.querySelector("tab-group").shadowRoot;
+  var rootViews2 = rootElement.querySelectorAll("webview.visible")[0];
+  console.log(rootViews2, "90-9-9-9-90");
+  var activeTab = rootViews2;
+  activeTab.addEventListener("dom-ready", (e) => {
+    console.log("kjhkhkh");
+    // activeTab.openDevTools();
+    checkSlack();
+  });
+}
 
-// let webview = tab4.webview;
-// webview.addEventListener("dom-ready", (e) => {
-//   console.log("kjhkhkh");
-//   webview.openDevTools();
-// });
+// let webview = tab.webview;
+
 console.log(navigator.userAgent);
 tabGroup.on("tab-active", (tab, tabGroup) => {
   tabActive = tab;
@@ -178,6 +201,7 @@ function removeWebviewVisibilty() {
 var webViewCounter = 1;
 function initSubtab(urlParam) {
   removeWebviewVisibilty();
+
   var rootElement = document.querySelector("tab-group").shadowRoot;
   var rootViews2 = rootElement.querySelector(".views");
   rootViews2.insertAdjacentHTML(
@@ -187,6 +211,7 @@ function initSubtab(urlParam) {
   </div>`
   );
   webViewCounter += 1;
+  checkActiveWebview();
 }
 ipcRenderer.on("ZOOMIN-PAGE", async () => {
   console.log("ZOOMIN-PAGE");
@@ -212,9 +237,9 @@ ipcRenderer.on("WEBVIEW-RELOAD", async () => {
   console.log("WEBVIEW-RELOAD");
   navReload();
 });
+
 ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
   console.log("LOAD-WEBVIEW-URL", url);
-
   let domain = new URL(url);
 
   const pathnameSegments = domain.pathname.split("/");
@@ -225,14 +250,37 @@ ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
   console.log(`${domain}/${firstPathnameSegment}`);
   if (
     `${domain}/${firstPathnameSegment}` === "docs.google.com/spreadsheets" ||
-    `${domain}/${firstPathnameSegment}` === "docs.google.com/document"
+    `${domain}/${firstPathnameSegment}` === "docs.google.com/spreadsheets" ||
+    `${domain}/${firstPathnameSegment}` === "app.slack.com/client" ||
+    `${domain}` === "windandvibes.zendesk.com" ||
+    `${domain}` === "etalonvert.zendesk.com" ||
+    `${domain}` === "chiwitt.zendesk.com" ||
+    `${domain}/${firstPathnameSegment}` === "windandvibes.com/backend" ||
+    `${domain}/${firstPathnameSegment}` === "etalon-vert.com/backend" ||
+    `${domain}/${firstPathnameSegment}` === "chiwitt-brand.com/backend"
   ) {
-    console.log("gooooogle");
+    // console.log("gooooogle", tabTitle);
     var tabGroupContainer = document.getElementById("tabGroupContainer");
     tabGroupContainer.insertAdjacentHTML(
       "beforeend",
-      `<div class="tabs-tabelem active" onclick="selectSubtab(event, 'webview${webViewCounter}')">${domain}</div>`
+      `<div class="tabs-tabelem active" id='Idwebview${webViewCounter}' onclick="selectSubtab(event, 'webview${webViewCounter}')"> <div id="titleIdwebview${webViewCounter}">Loading</div><div class="close-tab-container" onclick="removeSubtab(event, 'webview${webViewCounter}')">
+        <span>x</span>
+      </div></div>`
     );
+    console.log(
+      document.getElementById(`titleIdwebview${webViewCounter}`).innerText,
+      "jkhsgadkhaskldhkahj"
+    );
+    var tabTitle = document.getElementById(`titleIdwebview${webViewCounter}`);
+    getUrlTitle(url)
+      .then((title) => {
+        console.log(title);
+        tabTitle.innerText = title;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     initSubtab(url);
   } else {
     let newwebview = tabActive.webview;
@@ -242,13 +290,24 @@ ipcRenderer.on("LOAD-WEBVIEW-URL", async (event, url) => {
     });
   }
 });
+function removeSubtab(evt, currentCounter) {
+  var rootElement = document.querySelector("tab-group").shadowRoot;
+  var rootViews2 = rootElement.querySelector(".views");
+  console.log(rootViews2, "jklhsdkljfhkW");
+  const currentWebview = rootViews2.querySelector(
+    `#${currentCounter}-container`
+  );
+  document.getElementById(`Id${currentCounter}`).remove();
+  currentWebview.remove();
+}
+
 function selectSubtab(evt, tabName) {
   removeWebviewVisibilty();
   const searchModuleRoot = tabGroup && tabGroup.shadowRoot;
   var webviewidDiv = searchModuleRoot.querySelector(`#${tabName}-container`);
   var webviewID = searchModuleRoot.querySelector(`#${tabName}`);
-  console.log(webviewID, "ljkashd");
-  console.log(webviewidDiv, "jahsdk");
+  // console.log(webviewID, "ljkashd");
+  // console.log(webviewidDiv, "jahsdk");
   var i, tabcontent, tablinks;
   tabcontent = searchModuleRoot.querySelectorAll(".tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -262,6 +321,7 @@ function selectSubtab(evt, tabName) {
   webviewID.classList.add("visible");
   evt.currentTarget.className += " active";
 }
+
 function increaseZoom() {
   var currentZoom = tabActive.webview.getZoomFactor();
   tabActive.webview.setZoomFactor(currentZoom + 0.2);
