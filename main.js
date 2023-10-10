@@ -120,7 +120,6 @@ function createWindow() {
       enableRemoteModule: true,
       nodeIntegration: true,
       contextIsolation: false,
-      nativeWindowOpen: true,
     },
   });
   mainWindow.loadFile("index.html");
